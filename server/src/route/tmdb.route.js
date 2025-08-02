@@ -17,4 +17,6 @@ tmdbRouter.get("/movie/:id/similar", tmdbController.getSimilarMovies);
 tmdbRouter.get("/genres", tmdbController.getGenres);
 tmdbRouter.get("/genre/:id/movies", tmdbController.getMoviesByGenre);
 
+tmdbRouter.get('/movies', tmdbController.getAllMovies); 
+
 export default tmdbRouter;

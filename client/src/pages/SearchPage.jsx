@@ -21,6 +21,10 @@ export default function SearchPage() {
   const [error, setError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
 
+  const [allInitialMovies, setAllInitialMovies] = useState([]);
+  const [initialDisplayCount, setInitialDisplayCount] = useState(10);
+  const MOVIES_PER_LOAD = 12;
+
   const searchMovies = async (searchQuery = query, pageNum = 1) => {
     if (!searchQuery.trim()) return;
 
@@ -99,6 +103,39 @@ export default function SearchPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    const fetchInitialMovies = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await tmdbApi.getAllMovies();
+        let fetchedMovies = response.data.results || [];
+
+        
+        fetchedMovies.sort((a, b) => a.id - b.id);
+
+        setAllInitialMovies(fetchedMovies); 
+        setInitialDisplayCount(MOVIES_PER_LOAD); 
+      } catch (err) {
+        console.error("Failed to fetch initial movies:", err);
+        setError("ไม่สามารถโหลดหนังเริ่มต้นได้");
+        setAllInitialMovies([]);
+        setInitialDisplayCount(0);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (!hasSearched && !query.trim()) {
+      fetchInitialMovies();
+    }
+  }, [hasSearched, query]);
+
+
+  const loadMoreInitialMovies = () => {
+    setInitialDisplayCount(prevCount => prevCount + MOVIES_PER_LOAD);
   };
 
   const handleSearch = (e) => {
@@ -182,8 +219,37 @@ export default function SearchPage() {
         </Card>
       )}
 
-      {/* Initial State */}
-      {!hasSearched && !isLoading && (
+      {/* Initial State (แสดงหนัง 10 อันดับแรกเมื่อยังไม่ได้ค้นหา) */}
+      {!hasSearched && !isLoading && allInitialMovies.length > 0 && (
+        <div className="space-y-4">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold">หนังเริ่มต้น</CardTitle>
+            <CardDescription className="text-muted-foreground">
+              หนังที่คุณอาจสนใจจาก TMDB
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* <<<< แสดงหนังตาม initialDisplayCount */}
+              {allInitialMovies.slice(0, initialDisplayCount).map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
+            </div>
+
+            {/* <<<< ปุ่มโหลดเพิ่มเติมสำหรับหนังเริ่มต้น */}
+            {initialDisplayCount < allInitialMovies.length && (
+              <div className="text-center mt-4">
+                <Button onClick={loadMoreInitialMovies} variant="outline" disabled={isLoading}>
+                  {isLoading ? "กำลังโหลด..." : "โหลดเพิ่มเติม"}
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </div>
+      )}
+
+      {/* Initial State - No Initial Movies Available (หากโหลดหนังเริ่มต้นไม่ได้) */}
+      {!hasSearched && !isLoading && allInitialMovies.length === 0 && !error && (
         <Card>
           <CardContent className="pt-6 text-center">
             <div className="text-6xl mb-4">🎬</div>
