@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -108,6 +108,185 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.488 0.243 264.376);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+} */
+
+/* Custom animations for LoginPage */
+/* @keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1s;
+}
+
+.animation-delay-3000 {
+  animation-delay: 3s;
+} */
+
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* Netflix Dark Theme */
+  --radius: 0.65rem;
+
+  --background: oklch(0.06 0 0); /* <<<< พื้นหลังหลัก: ดำสนิทเกือบ #141414 */
+  --foreground: oklch(0.98 0 0); /* <<<< ข้อความหลัก: ขาว */
+
+  --card: oklch(0.1 0 0); /* <<<< Card background: ดำเข้มกว่า background เล็กน้อย #181818 */
+  --card-foreground: oklch(0.98 0 0); /* Card text: ขาว */
+
+  --popover: oklch(0.1 0 0); /* Popover background: ดำเข้ม */
+  --popover-foreground: oklch(0.98 0 0); /* Popover text: ขาว */
+
+  --primary: oklch(0.48 0.25 29.5); /* <<<< สี Primary (Netflix Red): #E50914 */
+  --primary-foreground: oklch(0.98 0 0); /* ข้อความบนปุ่ม Primary: ขาว */
+
+  --secondary: oklch(0.2 0 0); /* <<<< สี Secondary: เทาเข้ม #333333 */
+  --secondary-foreground: oklch(0.98 0 0); /* ข้อความบนปุ่ม Secondary: ขาว */
+
+  --muted: oklch(0.3 0 0); /* Muted background: เทา #4F4F4F */
+  --muted-foreground: oklch(0.7 0 0); /* Muted text: เทาอ่อน #B3B3B3 */
+
+  --accent: oklch(0.2 0 0); /* Accent background: เทาเข้ม */
+  --accent-foreground: oklch(0.98 0 0); /* Accent text: ขาว */
+
+  --destructive: oklch(0.48 0.25 29.5); /* Destructive: ใช้สีแดง Netflix */
+
+  --border: oklch(0.25 0 0); /* <<<< Border color: เทา #404040 */
+  --input: oklch(0.15 0 0); /* <<<< Input background: ดำ #222222 */
+  --ring: oklch(0.48 0.25 29.5); /* Ring color: แดง Netflix */
+
+  /* Chart colors - ปรับให้เข้ากับธีมดำแดง */
+  --chart-1: oklch(0.48 0.25 29.5); /* แดง */
+  --chart-2: oklch(0.6 0.1 240);    /* น้ำเงิน */
+  --chart-3: oklch(0.75 0.05 120);   /* เขียว */
+  --chart-4: oklch(0.5 0.08 60);    /* ส้ม */
+  --chart-5: oklch(0.8 0.02 0);     /* แดงอ่อน */
+
+
+  /* Sidebar colors - ให้เป็นโทนดำเทาเข้ม แดง ขาว */
+  --sidebar: oklch(0.06 0 0); /* <<<< Sidebar background: เดียวกับ background หลัก */
+  --sidebar-foreground: oklch(0.98 0 0); /* Sidebar text: ขาว */
+  --sidebar-primary: oklch(0.48 0.25 29.5); /* ปุ่ม active ใน sidebar: แดง Netflix */
+  --sidebar-primary-foreground: oklch(0.98 0 0); /* ข้อความบนปุ่ม active: ขาว */
+  --sidebar-accent: oklch(0.2 0 0); /* Sidebar accent: เทาเข้ม */
+  --sidebar-accent-foreground: oklch(0.98 0 0); /* Sidebar accent foreground: ขาว */
+  --sidebar-border: oklch(0.25 0 0); /* Sidebar border: เทา */
+  --sidebar-ring: oklch(0.48 0.25 29.5); /* Sidebar ring: แดง Netflix */
+}
+
+/* เนื่องจาก Netflix มักจะเป็น Dark Mode เสมอ และเราตั้งค่า :root เป็น Netflix Dark ไปแล้ว */
+/* เราสามารถทำให้ .dark เหมือน :root ได้เลย หรือจะลบ .dark block นี้ทิ้งไปเลยก็ได้ */
+/* ถ้าต้องการให้มีสวิตช์ Light/Dark mode ที่สลับกลับไป Light mode เดิมได้ จะต้องคง .dark เดิมไว้ */
+/* แต่ถ้าจะให้เป็น Netflix ตลอดเวลา ไม่ว่าจะเลือก Dark/Light mode ก็ใช้โค้ดด้านล่างได้เลย */
+.dark {
+  --background: oklch(0.06 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.1 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.1 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.48 0.25 29.5);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.2 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.3 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.2 0 0);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.48 0.25 29.5);
+  --border: oklch(0.25 0 0);
+  --input: oklch(0.15 0 0);
+  --ring: oklch(0.48 0.25 29.5);
+
+  --chart-1: oklch(0.48 0.25 29.5);
+  --chart-2: oklch(0.6 0.1 240);
+  --chart-3: oklch(0.75 0.05 120);
+  --chart-4: oklch(0.5 0.08 60);
+  --chart-5: oklch(0.8 0.02 0);
+
+  --sidebar: oklch(0.06 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.48 0.25 29.5);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.2 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.25 0 0);
+  --sidebar-ring: oklch(0.48 0.25 29.5);
 }
 
 @layer base {

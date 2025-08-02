@@ -116,6 +116,86 @@ const tmdbController = {
       next(error);
     }
   },
+   getMovieCredits: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const response = await fetch(
+        `${TMDB_BASE_URL}/movie/${id}/credits?api_key=${TMDB_API_KEY}&language=en-US`
+      );
+      if (!response.ok) {
+        throw createError(response.status, "Failed to fetch movie credits from TMDB");
+      }
+      const data = await response.json();
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getMovieVideos: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const response = await fetch(
+        `${TMDB_BASE_URL}/movie/${id}/videos?api_key=${TMDB_API_KEY}&language=en-US`
+      );
+      if (!response.ok) {
+        throw createError(response.status, "Failed to fetch movie videos from TMDB");
+      }
+      const data = await response.json();
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getSimilarMovies: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const page = req.query.page || 1;
+      const response = await fetch(
+        `${TMDB_BASE_URL}/movie/${id}/similar?api_key=${TMDB_API_KEY}&page=${page}&language=en-US`
+      );
+      if (!response.ok) {
+        throw createError(response.status, "Failed to fetch similar movies from TMDB");
+      }
+      const data = await response.json();
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  },
+  
+  getGenres: async (req, res, next) => {
+    try {
+      const response = await fetch(
+        `${TMDB_BASE_URL}/genre/movie/list?api_key=${TMDB_API_KEY}&language=en-US`
+      );
+      if (!response.ok) {
+        throw createError(response.status, "Failed to fetch genres from TMDB");
+      }
+      const data = await response.json();
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getMoviesByGenre: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const page = req.query.page || 1;
+      const response = await fetch(
+        `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${id}&page=${page}&language=en-US`
+      );
+      if (!response.ok) {
+        throw createError(response.status, "Failed to fetch movies by genre from TMDB");
+      }
+      const data = await response.json();
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 export default tmdbController;

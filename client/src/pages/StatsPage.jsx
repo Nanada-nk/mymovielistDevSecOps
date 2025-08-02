@@ -65,8 +65,8 @@ export default function StatsPage() {
 
       {/* Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="bg-gradient-to-b from-gray-950 to-gray-900">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 ">
             <CardTitle className="text-sm font-medium">รวมทั้งหมด</CardTitle>
             <span className="text-2xl">🎬</span>
           </CardHeader>
@@ -76,7 +76,7 @@ export default function StatsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-b from-gray-950 to-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">ชอบ</CardTitle>
             <span className="text-2xl">👍</span>
@@ -89,7 +89,7 @@ export default function StatsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-b from-gray-950 to-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">ไม่ชอบ</CardTitle>
             <span className="text-2xl">👎</span>
@@ -102,7 +102,7 @@ export default function StatsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-b from-gray-950 to-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">ดูภายหลัง</CardTitle>
             <span className="text-2xl">📚</span>
@@ -128,7 +128,7 @@ export default function StatsPage() {
                 <span>{stats.likedMovies} เรื่อง</span>
                 <span>{likePercentage.toFixed(1)}%</span>
               </div>
-              <Progress value={likePercentage} className="h-2" />
+              <Progress value={likePercentage} className="h-3 bg-white" />
             </div>
           </CardContent>
         </Card>
@@ -143,7 +143,7 @@ export default function StatsPage() {
                 <span>{stats.dislikedMovies} เรื่อง</span>
                 <span>{dislikePercentage.toFixed(1)}%</span>
               </div>
-              <Progress value={dislikePercentage} className="h-2" />
+              <Progress value={dislikePercentage} className="h-3 bg-white" />
             </div>
           </CardContent>
         </Card>
@@ -158,7 +158,7 @@ export default function StatsPage() {
                 <span>{stats.watchLaterMovies} เรื่อง</span>
                 <span>{watchLaterPercentage.toFixed(1)}%</span>
               </div>
-              <Progress value={watchLaterPercentage} className="h-2" />
+              <Progress value={watchLaterPercentage} className="h-3 bg-white" />
             </div>
           </CardContent>
         </Card>
@@ -229,3 +229,4 @@ export default function StatsPage() {
     </div>
   );
 }
+

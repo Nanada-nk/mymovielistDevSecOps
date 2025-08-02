@@ -23,7 +23,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/90">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo Section */}
         <div className="flex items-center space-x-8">
@@ -31,8 +31,8 @@ export default function Header() {
             to="/"
             className="flex items-center space-x-2 text-xl font-bold hover:opacity-80 transition-opacity"
           >
-            <Film className="h-6 w-6 text-primary" />
-            <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+            <Film className="h-6 w-6 text-red-600" />
+            <span className="bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent">
               My Movie List
             </span>
           </Link>
@@ -42,10 +42,10 @@ export default function Header() {
             <Button
               asChild
               variant={isActive("/") ? "default" : "ghost"}
+              className={isActive("/") ? "bg-red-600 hover:bg-red-700 text-white" : "text-gray-200 hover:bg-gray-800 hover:text-white"}
               size="sm"
-              className="gap-2"
             >
-              <Link to="/">
+              <Link to="/" className="gap-2">
                 <Home className="h-4 w-4" />
                 หน้าแรก
               </Link>
@@ -54,9 +54,9 @@ export default function Header() {
               asChild
               variant={isActive("/search") ? "default" : "ghost"}
               size="sm"
-              className="gap-2"
+              className={isActive("/search") ? "bg-red-600 hover:bg-red-700 text-white" : "text-gray-200 hover:bg-gray-800 hover:text-white"}
             >
-              <Link to="/search">
+              <Link to="/search" className="gap-2">
                 <Search className="h-4 w-4" />
                 ค้นหา
               </Link>
@@ -73,9 +73,9 @@ export default function Header() {
                 asChild
                 variant={isActive("/dashboard") ? "default" : "ghost"}
                 size="sm"
-                className="hidden sm:inline-flex gap-2"
+                className={isActive("/dashboard") ? "bg-red-600 hover:bg-red-700 text-white" : "hidden sm:inline-flex gap-2 text-gray-200 hover:bg-gray-800 hover:text-white"}
               >
-                <Link to="/dashboard">
+                <Link to="/dashboard" className="gap-2">
                   <List className="h-4 w-4" />
                   แดชบอร์ด
                 </Link>
@@ -86,20 +86,20 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
+                    className="relative h-8 w-8 rounded-full text-gray-100 hover:bg-gray-800 hover:text-white"
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user?.avatar} alt={user?.name} />
-                      <AvatarFallback className="bg-primary text-primary-foreground">
+                      <AvatarFallback className="bg-red-600 text-white">
                         {user?.name?.charAt(0)?.toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuContent className="w-56  backdrop-blur supports-[backdrop-filter]:bg-gray-950/55 text-white border-none" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
+                      <p className="text-sm font-medium leading-none text-white">
                         {user?.name}
                       </p>
                       <p className="text-xs leading-none text-muted-foreground">
