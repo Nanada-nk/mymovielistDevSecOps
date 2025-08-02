@@ -238,7 +238,7 @@ export default function MovieCard({
   };
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden hover:animate-pulse">
       <div className="aspect-[2/3] relative">
         <img
           src={posterUrl}

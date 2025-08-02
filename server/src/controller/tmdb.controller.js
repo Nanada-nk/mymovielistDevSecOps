@@ -116,7 +116,7 @@ const tmdbController = {
       next(error);
     }
   },
-   getMovieCredits: async (req, res, next) => {
+  getMovieCredits: async (req, res, next) => {
     try {
       const { id } = req.params;
       const response = await fetch(
@@ -164,7 +164,7 @@ const tmdbController = {
       next(error);
     }
   },
-  
+
   getGenres: async (req, res, next) => {
     try {
       const response = await fetch(

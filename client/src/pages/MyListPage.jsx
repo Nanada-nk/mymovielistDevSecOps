@@ -160,11 +160,8 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  // CardDescription, // ไม่ได้ใช้แล้ว สามารถลบได้
-  // CardHeader, // ไม่ได้ใช้แล้ว สามารถลบได้
-  // CardTitle, // ไม่ได้ใช้แล้ว สามารถลบได้
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; // <<<< นำ import ของ Tabs กลับมา
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; 
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { movieApi } from "../api/movieApi.js";
