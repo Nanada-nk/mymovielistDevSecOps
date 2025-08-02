@@ -95,6 +95,30 @@ const authController = {
       accessToken: newAccessToken,
     });
   },
+  getMe: async (req, res) => {
+    const user = await authService.getUserProfile(req.user.id);
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+    const { password: _, ...userWithoutPassword } = user;
+    res.status(200).json(userWithoutPassword);
+  },
+  updateProfile: async (req, res) => {
+    const userId = req.user.id;
+    const profileData = req.body;
+    const updatedUser = await authService.updateProfile(userId, {
+      name: profileData.name,
+    });
+    const { password: _, ...userWithoutPassword } = updatedUser;
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: userWithoutPassword,
+    });
+  },
+  logout: (req, res) => {
+    res.clearCookie("refreshToken");
+    res.status(200).json({ message: "Logged out successfully" });
+  },
 };
 
 export default authController;

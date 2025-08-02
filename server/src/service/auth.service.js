@@ -17,8 +17,16 @@ const authService = {
   getUserProfile: async (userId) => {
     return await prisma.user.findUnique({
       where: { id: userId },
-      include: { movies: true }, // Assuming a relation with movies
+      include: { movieLists: true }, // Assuming a relation with movies
     });
+  },
+  updateProfile: async (userId, profileId) => {
+    return prisma.user.update({
+      where: { id: userId},
+      data: {
+        name: profileId.name
+      }
+    })
   },
   findExistingUser: async (email) => {
     return await prisma.user.findUnique({

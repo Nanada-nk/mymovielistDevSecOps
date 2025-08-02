@@ -2,6 +2,7 @@ import express from "express";
 import authController from "../controller/auth.controller.js";
 import validate from "../validation/validate.validatation.js";
 import authSchema from "../validation/authSchema.validation.js";
+import authMiddleware from "../middleware/auth.middleware.js";
 
 const authRouter = express.Router();
 
@@ -22,5 +23,9 @@ authRouter.post(
   authController.resetPassword
 );
 authRouter.post("/refresh-token", authController.refreshToken);
+
+authRouter.put("/profile", authMiddleware.checkToken, authController.updateProfile);
+authRouter.get("/me", authMiddleware.checkToken, authController.getMe);
+authRouter.post("/logout", authController.logout);
 
 export default authRouter;

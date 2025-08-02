@@ -1,4 +1,4 @@
-import { publicApi } from "./baseApi";
+import { privateApi, publicApi } from "./baseApi";
 
 const authApi = {
   register: (data) => {
@@ -7,17 +7,23 @@ const authApi = {
   login: (data) => {
     return publicApi.post("/auth/login", data);
   },
-  logout: () => {
-    return publicApi.post("/auth/logout");
-  },
-  updateProfile: (data) => {
-    return publicApi.put("/auth/profile", data);
-  },
   forgotPassword: (data) => {
     return publicApi.post("/auth/forgot-password", data);
   },
   resetPassword: (token, data) => {
     return publicApi.post(`/auth/reset-password/${token}`, data);
+  },
+  refreshToken: () => {
+    return publicApi.post("/auth/refresh-token");
+  },
+  getMe: () => {
+    return privateApi.get("/auth/me");
+  },
+  logout: () => {
+    return privateApi.post("/auth/logout");
+  },
+  updateProfile: (data) => {
+    return privateApi.put("/auth/profile", data);
   },
 };
 
