@@ -93,7 +93,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-8">
+      <div className="bg-gradient-to-r from-blue-600 to-red-600 text-white rounded-lg p-8">
         <div className="flex items-center space-x-4">
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
             <span className="text-2xl font-bold">
@@ -111,9 +111,9 @@ export default function DashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="hover:shadow-lg transition-shadow duration-300">
+        <Card className="hover:shadow-lg transition-shadow duration-300 bg-gradient-to-b from-gray-950 to-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-md font-medium text-muted-foreground">
               รวมทั้งหมด
             </CardTitle>
             <div className="p-2 bg-blue-100 rounded-full">
@@ -124,15 +124,15 @@ export default function DashboardPage() {
             <div className="text-3xl font-bold text-blue-600">
               {totalMovies}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               หนังทั้งหมดในรายการ
             </p>
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+        <Card className="hover:shadow-lg transition-shadow duration-300 bg-gradient-to-b from-gray-950 to-gray-900">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 ">
+            <CardTitle className="text-md font-medium text-muted-foreground">
               หนังที่ชอบ
             </CardTitle>
             <div className="p-2 bg-green-100 rounded-full">
@@ -144,17 +144,17 @@ export default function DashboardPage() {
               {stats.likedMovies}
             </div>
             <div className="flex items-center space-x-2 mt-1">
-              <Progress value={likedPercentage} className="flex-1 h-2" />
-              <span className="text-xs text-muted-foreground">
+              <Progress value={likedPercentage} className="flex-1 h-4 bg-green-600" />
+              <span className="text-sm text-white">
                 {likedPercentage.toFixed(0)}%
               </span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-shadow duration-300">
+        <Card className="hover:shadow-lg transition-shadow duration-300 bg-gradient-to-b from-gray-950 to-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-md font-medium text-muted-foreground">
               หนังที่ไม่ชอบ
             </CardTitle>
             <div className="p-2 bg-red-100 rounded-full">
@@ -165,15 +165,15 @@ export default function DashboardPage() {
             <div className="text-3xl font-bold text-red-600">
               {stats.dislikedMovies}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-sm text-white mt-1">
               หนังที่ไม่ถูกใจ
             </p>
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-shadow duration-300">
+        <Card className="hover:shadow-lg transition-shadow duration-300 bg-gradient-to-b from-gray-950 to-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-md font-medium text-muted-foreground">
               ดูภายหลัง
             </CardTitle>
             <div className="p-2 bg-yellow-100 rounded-full">
@@ -184,7 +184,7 @@ export default function DashboardPage() {
             <div className="text-3xl font-bold text-yellow-600">
               {stats.watchLaterMovies}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-sm text-white mt-1">
               หนังที่วางแผนจะดู
             </p>
           </CardContent>
@@ -292,13 +292,13 @@ export default function DashboardPage() {
       )}
 
       {/* Achievement Section */}
-      <Card className="border-0 shadow-lg bg-gradient-to-r from-purple-50 to-blue-50">
+      <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-600 to-red-600">
         <CardHeader>
           <div className="flex items-center space-x-2">
-            <Trophy className="h-5 w-5 text-yellow-600" />
-            <CardTitle>ความสำเร็จ</CardTitle>
+            <Trophy className="h-8 w-8 text-yellow-500 font-bold" />
+            <CardTitle className="text-2xl">ความสำเร็จ</CardTitle>
           </div>
-          <CardDescription>เป้าหมายและความสำเร็จของคุณ</CardDescription>
+          <CardDescription className="text-xl text-white">เป้าหมายและความสำเร็จของคุณ</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -307,7 +307,7 @@ export default function DashboardPage() {
                 <Film className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <p className="font-medium">นักดูหนัง</p>
+                <p className="font-bold text-black">นักดูหนัง</p>
                 <p className="text-sm text-muted-foreground">
                   ดูหนังแล้ว {totalMovies} เรื่อง
                 </p>
@@ -319,7 +319,7 @@ export default function DashboardPage() {
                 <Heart className="h-6 w-6 text-green-600" />
               </div>
               <div>
-                <p className="font-medium">คนชอบหนัง</p>
+                <p className="font-bold text-black">คนชอบหนัง</p>
                 <p className="text-sm text-muted-foreground">
                   ชอบหนัง {stats.likedMovies} เรื่อง
                 </p>
@@ -331,3 +331,6 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+
+

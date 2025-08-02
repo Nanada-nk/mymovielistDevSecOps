@@ -22,4 +22,12 @@ movieRouter.put(
 );
 movieRouter.delete("/remove/:id", movieController.deleteMovie);
 
+movieRouter.get("/stats", movieController.getUserStats);
+movieRouter.get("/recent", movieController.getRecentMovies);
+
+movieRouter.get("/my-list/:id/note", movieController.getMovieNote);
+movieRouter.post("/notes", movieController.createMovieNote);
+movieRouter.put("/notes/:noteId", movieController.updateMovieNote);
+movieRouter.delete("/notes/:noteId", movieController.deleteMovieNote);
+
 export default movieRouter;

@@ -25,13 +25,18 @@ model User {
 }
 
 model MovieList {
-  id        String      @id @default(uuid()) @map("_id")
-  user      User        @relation(fields: [userId], references: [id])
-  userId    String
-  movieId   Int // จาก TMDB API
-  status    MovieStatus
-  note      String?
-  createdAt DateTime    @default(now())
+  id           String       @id @default(uuid()) @map("_id")
+  user         User         @relation(fields: [userId], references: [id])
+  userId       String
+  movieId      Int // จาก TMDB API
+  title        String?
+  posterUrl    String?
+  voteAverage  Float?
+  releaseDate  DateTime?
+  status       MovieStatus?
+  isWatchLater Boolean?     @default(false)
+  note         String?
+  createdAt    DateTime     @default(now())
 }
 
 model RefreshToken {
@@ -46,5 +51,4 @@ model RefreshToken {
 enum MovieStatus {
   LIKED
   DISLIKED
-  WATCH_LATER
 }

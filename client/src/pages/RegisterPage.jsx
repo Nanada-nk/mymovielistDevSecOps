@@ -70,8 +70,21 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
+
+      <video
+        autoPlay
+        loop
+        muted
+        className="absolute inset-0 min-w-full min-h-full object-cover z-0 opacity-20" // <<<< ปรับ opacity เพื่อให้ภาพไม่สว่างเกินไป
+      >
+        <source src="https://videos.pexels.com/video-files/4138365/4138365-hd_1920_1080_25fps.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      {/* Overlay เพื่อให้ข้อความอ่านง่ายขึ้นบนพื้นหลังวิดีโอ */}
+      <div className="absolute inset-0 bg-black/70 z-0"></div>
+
+      <div className="relative z-10 w-full max-w-md">
         {/* Logo Section */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-2 mb-4">

@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useUserStore } from "../stores/useUserStore";
+import { useUserStore } from "../stores/useUserStore.js";
+import { authApi } from "./authApi.js";
 
 const baseConfig = {
   baseURL: "http://localhost:3000/api",
@@ -30,13 +31,14 @@ privateApi.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401) {
-      if (!originalRequest._retry) {
-        return Promise.reject(error);
-      }
+    if (error.response.status === 401 && !originalRequest._retry) {
+      // if (!originalRequest._retry) {
+      //   return Promise.reject(error);
+      // }
       originalRequest._retry = true;
       try {
-        const response = await publicApi.post("/auth/refresh-token");
+        // const response = await publicApi.post("/auth/refresh-token");
+        const response = await authApi.refreshToken();
         const newAccessToken = response.data.accessToken;
         useUserStore.getState().setAccessToken(newAccessToken);
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;

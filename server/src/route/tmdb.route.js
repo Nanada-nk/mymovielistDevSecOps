@@ -10,4 +10,11 @@ tmdbRouter.get("/top-rated", tmdbController.getTopRatedMovies);
 tmdbRouter.get("/upcoming", tmdbController.getUpcomingMovies);
 tmdbRouter.get("/movie/:id", tmdbController.getMovieDetailById);
 
+
+tmdbRouter.get("/movie/:id/credits", tmdbController.getMovieCredits);
+tmdbRouter.get("/movie/:id/videos", tmdbController.getMovieVideos);
+tmdbRouter.get("/movie/:id/similar", tmdbController.getSimilarMovies);
+tmdbRouter.get("/genres", tmdbController.getGenres);
+tmdbRouter.get("/genre/:id/movies", tmdbController.getMoviesByGenre);
+
 export default tmdbRouter;
