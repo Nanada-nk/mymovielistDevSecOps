@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, Save } from "lucide-react";
 import { tmdbApi } from "../api/tmdbApi";
 import { movieApi } from "../api/movieApi";
+import { toast } from "react-toastify";
 
 export default function MovieNotePage() {
   const { id } = useParams();
@@ -31,10 +32,10 @@ export default function MovieNotePage() {
           movieApi.getMovieNote(id).catch(() => null), // Note might not exist
         ]);
 
-        setMovie(movieData);
+        setMovie(movieData.data);
         if (noteData) {
-          setExistingNote(noteData);
-          setNote(noteData.content);
+          setExistingNote(noteData.data);
+          setNote(noteData.data.content);
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -48,7 +49,7 @@ export default function MovieNotePage() {
 
   const handleSave = async () => {
     if (!note.trim()) {
-      alert("กรุณาเขียนโน้ตก่อนบันทึก");
+      toast.info("กรุณาเขียนโน้ตก่อนบันทึก");
       return;
     }
 
@@ -63,11 +64,11 @@ export default function MovieNotePage() {
         });
       }
 
-      alert("บันทึกโน้ตเรียบร้อยแล้ว");
+      toast.success("บันทึกโน้ตเรียบร้อยแล้ว");
       navigate(`/movie/${id}`);
     } catch (error) {
       console.error("Failed to save note:", error);
-      alert("เกิดข้อผิดพลาดในการบันทึก");
+      toast.error("เกิดข้อผิดพลาดในการบันทึก");
     } finally {
       setIsSaving(false);
     }
@@ -175,5 +176,5 @@ export default function MovieNotePage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

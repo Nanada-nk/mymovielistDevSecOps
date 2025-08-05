@@ -40,14 +40,15 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // Fetch user stats and recent movies
+
         const [statsData, recentData] = await Promise.all([
           movieApi.getUserStats(),
           movieApi.getRecentMovies(5),
         ]);
 
-        setStats(statsData);
-        setRecentMovies(recentData);
+        setStats(statsData.data);
+        setRecentMovies(recentData.data);
+        console.log('Stats Data:', statsData.data);
       } catch (error) {
         console.error("Failed to fetch dashboard data:", error);
       } finally {
@@ -87,12 +88,14 @@ export default function DashboardPage() {
   };
 
   const totalMovies = stats.totalMovies || 0;
-  const likedPercentage =
-    totalMovies > 0 ? (stats.likedMovies / totalMovies) * 100 : 0;
+  const likedPercentage = totalMovies > 0 ? (stats.likedMovies / totalMovies) * 100 : 0;
+  const dislikedPercentage = totalMovies > 0 ? (stats.dislikedMovies / totalMovies) * 100 : 0;
+  const watchLaterPercentage = totalMovies > 0 ? (stats.watchLaterMovies / totalMovies) * 100 : 0;
+
 
   return (
     <div className="space-y-8">
-      {/* Welcome Header */}
+
       <div className="bg-gradient-to-r from-blue-600 to-red-600 text-white rounded-lg p-8">
         <div className="flex items-center space-x-4">
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
@@ -109,7 +112,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Stats Cards */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="hover:shadow-lg transition-shadow duration-300 bg-gradient-to-b from-gray-950 to-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -144,11 +147,14 @@ export default function DashboardPage() {
               {stats.likedMovies}
             </div>
             <div className="flex items-center space-x-2 mt-1">
-              <Progress value={likedPercentage} className="flex-1 h-4 bg-green-600" />
+              <Progress value={likedPercentage} className="flex-1 h-4 bg-gray-600" />
               <span className="text-sm text-white">
                 {likedPercentage.toFixed(0)}%
               </span>
             </div>
+            <p className="text-sm text-white mt-1">
+              หนังที่ชอบ
+            </p>
           </CardContent>
         </Card>
 
@@ -165,8 +171,14 @@ export default function DashboardPage() {
             <div className="text-3xl font-bold text-red-600">
               {stats.dislikedMovies}
             </div>
+            <div className="flex items-center space-x-2 mt-1">
+              <Progress value={dislikedPercentage} className="flex-1 h-4 bg-gray-500" />
+              <span className="text-sm text-white">
+                {dislikedPercentage.toFixed(0)}%
+              </span>
+            </div>
             <p className="text-sm text-white mt-1">
-              หนังที่ไม่ถูกใจ
+              หนังที่ไม่ชอบ
             </p>
           </CardContent>
         </Card>
@@ -184,6 +196,12 @@ export default function DashboardPage() {
             <div className="text-3xl font-bold text-yellow-600">
               {stats.watchLaterMovies}
             </div>
+            <div className="flex items-center space-x-2 mt-1">
+              <Progress value={watchLaterPercentage} className="flex-1 h-4 bg-gray-500" />
+              <span className="text-sm text-white">
+                {watchLaterPercentage.toFixed(0)}%
+              </span>
+            </div>
             <p className="text-sm text-white mt-1">
               หนังที่วางแผนจะดู
             </p>
@@ -191,7 +209,7 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Quick Actions */}
+
       <Card className="border-0 shadow-lg">
         <CardHeader>
           <div className="flex items-center space-x-2">
@@ -232,7 +250,7 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
 
-      {/* Recent Movies */}
+
       {recentMovies.length > 0 && (
         <Card className="border-0 shadow-lg">
           <CardHeader>
@@ -256,16 +274,18 @@ export default function DashboardPage() {
                 return (
                   <div key={movie.id} className="group cursor-pointer">
                     <div className="relative overflow-hidden rounded-lg mb-3">
-                      <img
-                        src={movie.poster_url || "/placeholder-movie.jpg"}
-                        alt={movie.title}
-                        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <Button size="sm" variant="secondary">
-                          ดูรายละเอียด
-                        </Button>
-                      </div>
+                      <Link to={`/movie/${movie.movieId}`}> 
+                        <img
+                          src={movie.posterUrl || "/placeholder-movie.jpg"}
+                          alt={movie.title}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <Button size="sm" variant="secondary" className="pointer-events-none"> {/* <-- เพิ่ม pointer-events-none */}
+                            ดูรายละเอียด
+                          </Button>
+                        </div>
+                      </Link> 
                     </div>
                     <div className="space-y-2">
                       <h4 className="font-medium text-sm leading-tight line-clamp-2">
@@ -291,7 +311,7 @@ export default function DashboardPage() {
         </Card>
       )}
 
-      {/* Achievement Section */}
+
       <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-600 to-red-600">
         <CardHeader>
           <div className="flex items-center space-x-2">
@@ -329,7 +349,7 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
 
 

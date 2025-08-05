@@ -1,54 +1,3 @@
-// import prisma from "../config/prisma.config.js";
-
-// const movieService = {
-//   getAllMovies: async (userId) => {
-//     return await prisma.movie.findMany({
-//       where: {
-//         userId: userId,
-//       },
-//       orderBy: {
-//         createdAt: "desc",
-//       },
-//     });
-//   },
-//   getMoviebyId: async (userId, movieId) => {
-//     return await prisma.movie.findFirst({
-//       where: {
-//         id: movieId,
-//         userId: userId,
-//       },
-//     });
-//   },
-//   createMovie: async (userId, movieData) => {
-//     return await prisma.movie.create({
-//       data: {
-//         ...movieData,
-//         userId: userId,
-//       },
-//     });
-//   },
-//   updateMovie: async (userId, movieId, movieData) => {
-//     return await prisma.movie.update({
-//       where: {
-//         id: movieId,
-//         userId: userId,
-//       },
-//       data: movieData,
-//     });
-//   },
-//   deleteMovie: async (userId, movieId) => {
-//     return await prisma.movie.delete({
-//       where: {
-//         id: movieId,
-//         userId: userId,
-//       },
-//     });
-//   },
-// };
-
-// export default movieService;
-
-
 import prisma from "../config/prisma.config.js";
 
 const movieService = {
@@ -130,28 +79,37 @@ const movieService = {
     });
   },
 
+
   getUserStats: async (userId) => {
     const totalMovies = await prisma.movieList.count({ where: { userId } });
-    const statusCounts = await prisma.movieList.groupBy({
-      by: ['status'],
-      where: { userId },
-      _count: {
-        status: true,
+
+    const likedCount = await prisma.movieList.count({
+      where: {
+        userId: userId,
+        status: 'LIKED',
+      },
+    });
+
+    const dislikedCount = await prisma.movieList.count({
+      where: {
+        userId: userId,
+        status: 'DISLIKED',
+      },
+    });
+
+    const watchLaterCount = await prisma.movieList.count({
+      where: {
+        userId: userId,
+        isWatchLater: true,
       },
     });
 
     const stats = {
       totalMovies,
-      likedMovies: 0,
-      dislikedMovies: 0,
-      watchLaterMovies: 0,
+      likedMovies: likedCount,
+      dislikedMovies: dislikedCount,
+      watchLaterMovies: watchLaterCount,
     };
-
-    statusCounts.forEach(item => {
-      if (item.status === 'LIKED') stats.likedMovies = item._count.status;
-      if (item.status === 'DISLIKED') stats.dislikedMovies = item._count.status;
-      if (item.status === 'WATCH_LATER') stats.watchLaterMovies = item._count.status;
-    });
 
     return stats;
   },
@@ -177,12 +135,12 @@ const movieService = {
     });
 
     const dataToSave = {
-      title: noteData.title, 
+      title: noteData.title,
       posterUrl: noteData.posterUrl,
       voteAverage: noteData.voteAverage,
       releaseDate: noteData.releaseDate ? new Date(noteData.releaseDate) : null,
-      status: noteData.status, 
-      isWatchLater: noteData.isWatchLater, 
+      status: noteData.status,
+      isWatchLater: noteData.isWatchLater,
       note: noteData.note,
     };
 
