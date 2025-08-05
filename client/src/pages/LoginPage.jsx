@@ -23,6 +23,7 @@ import {
   Heart,
   Clock,
 } from "lucide-react";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -46,7 +47,7 @@ export default function LoginPage() {
       navigate(from, { replace: true });
     } catch (error) {
       console.error("Login failed:", error);
-      alert("เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบอีเมลและรหัสผ่าน");
+      toast.error("เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบอีเมลและรหัสผ่าน");
     } finally {
       setIsLoading(false);
     }
@@ -272,5 +273,5 @@ export default function LoginPage() {
         }
       `}</style>
     </div>
-  );
+  )
 }

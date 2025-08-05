@@ -16,5 +16,5 @@ export default function ProtectedLayout() {
         </div>
       </div>
     </AuthGuard>
-  );
+  )
 }

@@ -26,7 +26,7 @@ export default function StatsPage() {
     const fetchStats = async () => {
       try {
         const data = await movieApi.getUserStats();
-        setStats(data);
+        setStats(data.data);
       } catch (error) {
         console.error("Failed to fetch stats:", error);
       } finally {
@@ -227,6 +227,6 @@ export default function StatsPage() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
 

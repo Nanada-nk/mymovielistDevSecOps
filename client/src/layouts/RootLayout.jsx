@@ -11,5 +11,5 @@ export default function RootLayout() {
       </main>
       <Footer />
     </div>
-  );
+  )
 }

@@ -12,18 +12,34 @@ import { Badge } from "@/components/ui/badge";
 import { Star, Clock, Calendar, ArrowLeft } from "lucide-react";
 import { tmdbApi } from "../api/tmdbApi";
 import { useUserStore } from "../stores/useUserStore";
+import { movieApi } from "../api/movieApi";
 
 export default function MovieDetailPage() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [currentStatus, setCurrentStatus] = useState(null);
+  const [isWatchLater, setIsWatchLater] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { isAuthenticated } = useUserStore();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated)
+  const user = useUserStore((state) => state.user)
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
         const movieData = await tmdbApi.getMovieDetails(id);
-        setMovie(movieData);
+        setMovie(movieData.data);
+        console.log('Movie data from API:', movieData);
+
+
+        if (isAuthenticated && user) {
+          const userMovieResponse = await movieApi.getUserMovie(id);
+          if (userMovieResponse.data) {
+            setCurrentStatus(userMovieResponse.data.status || null);
+            setIsWatchLater(userMovieResponse.data.isWatchLater || false);
+          }
+        }
+
       } catch (error) {
         console.error("Failed to fetch movie:", error);
       } finally {
@@ -32,7 +48,61 @@ export default function MovieDetailPage() {
     };
 
     fetchMovie();
-  }, [id]);
+  }, [id, isAuthenticated, user]);
+
+const handleStatusChange = async (newStatus) => {
+  if (!isAuthenticated || isUpdating || !user || !movie) return;
+
+  setIsUpdating(true);
+  const newLikeDislikeStatus = currentStatus === newStatus ? null : newStatus;
+
+  try {
+    const payload = {
+      userId: user.id, 
+      movieId: movie.id, 
+      title: movie.title,
+      posterUrl: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : null,
+      status: newLikeDislikeStatus,
+      isWatchLater: isWatchLater,
+      voteAverage: movie.vote_average,
+      releaseDate: movie.release_date,
+    };
+
+    await movieApi.addToList(payload);
+    setCurrentStatus(newLikeDislikeStatus);
+  } catch (error) {
+    console.error("Failed to update status:", error);
+  } finally {
+    setIsUpdating(false);
+  }
+};
+
+const handleWatchLaterChange = async () => {
+  if (!isAuthenticated || isUpdating || !user || !movie) return;
+
+  setIsUpdating(true);
+  const newWatchLaterStatus = !isWatchLater;
+
+  try {
+    const payload = {
+      userId: user.id, 
+      movieId: movie.id, 
+      title: movie.title,
+      posterUrl: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : null,
+      status: currentStatus,
+      isWatchLater: newWatchLaterStatus,
+      voteAverage: movie.vote_average,
+      releaseDate: movie.release_date,
+    };
+
+    await movieApi.addToList(payload);
+    setIsWatchLater(newWatchLaterStatus);
+  } catch (error) {
+    console.error("Failed to update watch later status:", error);
+  } finally {
+    setIsUpdating(false);
+  }
+};
 
   if (isLoading) {
     return <div className="text-center">กำลังโหลด...</div>;
@@ -61,7 +131,7 @@ export default function MovieDetailPage() {
 
       {backdropUrl && (
         <div
-          className="h-64 bg-cover bg-center rounded-lg"
+          className="h-100 bg-cover bg-center rounded-lg"
           style={{ backgroundImage: `url(${backdropUrl})` }}
         />
       )}
@@ -86,18 +156,24 @@ export default function MovieDetailPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary" className="flex items-center gap-1">
-              <Star className="h-3 w-3" />
-              {movie.vote_average?.toFixed(1)} / 10
-            </Badge>
-            <Badge variant="outline" className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              {movie.runtime} นาที
-            </Badge>
-            <Badge variant="outline" className="flex items-center gap-1">
-              <Calendar className="h-3 w-3" />
-              {new Date(movie.release_date).getFullYear()}
-            </Badge>
+            {movie.vote_average && movie.vote_average > 0 && (
+              <Badge variant="secondary" className="flex items-center gap-1">
+                <Star className="h-3 w-3" />
+                {movie.vote_average.toFixed(1)} / 10
+              </Badge>
+            )}
+            {movie.runtime && (
+              <Badge variant="outline" className="flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                {movie.runtime} นาที
+              </Badge>
+            )}
+            {movie.release_date && (
+              <Badge variant="outline" className="flex items-center gap-1">
+                <Calendar className="h-3 w-3" />
+                {new Date(movie.release_date).getFullYear()}
+              </Badge>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-1">
@@ -121,9 +197,21 @@ export default function MovieDetailPage() {
 
           {isAuthenticated && (
             <div className="flex gap-2">
-              <Button variant="default">👍 ชอบ</Button>
-              <Button variant="destructive">👎 ไม่ชอบ</Button>
-              <Button variant="outline">📚 ดูภายหลัง</Button>
+              <Button
+                variant={currentStatus === "LIKED" ? "default" : "outline"}
+                onClick={() => handleStatusChange("LIKED")}
+                disabled={isUpdating}
+              >👍 ชอบ</Button>
+              <Button
+                variant={currentStatus === "DISLIKED" ? "destructive" : "outline"}
+                onClick={() => handleStatusChange("DISLIKED")}
+                disabled={isUpdating}
+              >👎 ไม่ชอบ</Button>
+              <Button
+                variant={isWatchLater ? "default" : "outline"}
+                onClick={handleWatchLaterChange}
+                disabled={isUpdating}
+              >📚 ดูภายหลัง</Button>
               <Button asChild variant="secondary">
                 <Link to={`/movie/${id}/note`}>📝 เขียนโน้ต</Link>
               </Button>
@@ -150,5 +238,5 @@ export default function MovieDetailPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,7 +1,7 @@
 import { publicApi } from "./baseApi";
 
 const tmdbApi = {
-  // Search and discover movies
+  
   searchMovies: (query, page = 1) => {
     return publicApi.get(
       `/tmdb/search?query=${encodeURIComponent(query)}&page=${page}`
@@ -24,7 +24,7 @@ const tmdbApi = {
     return publicApi.get(`/tmdb/upcoming?page=${page}`);
   },
 
-  // Movie details
+  
   getMovieDetails: (id) => {
     return publicApi.get(`/tmdb/movie/${id}`);
   },
@@ -41,7 +41,7 @@ const tmdbApi = {
     return publicApi.get(`/tmdb/movie/${id}/similar`);
   },
 
-  // Genres
+  
   getGenres: () => {
     return publicApi.get("/tmdb/genres");
   },

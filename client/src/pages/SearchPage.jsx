@@ -32,19 +32,19 @@ export default function SearchPage() {
     setError(null);
 
     try {
-      console.log("Searching for:", searchQuery, "Page:", pageNum); // Debug log
-      console.log("About to call tmdbApi.searchMovies..."); // เพิ่ม debug
+      console.log("Searching for:", searchQuery, "Page:", pageNum); 
+      console.log("About to call tmdbApi.searchMovies..."); 
 
       const response = await tmdbApi.searchMovies(searchQuery, pageNum);
       console.log("Search response:", response);
 
-      // เพิ่ม debug เพื่อดูว่า API ถูกเรียกหรือไม่
+   
       if (!response) {
         console.error("No response from API");
         throw new Error("No response from API");
       }
 
-      // Handle multiple response formats
+    
       let responseData;
       let resultsArray;
 
@@ -68,7 +68,7 @@ export default function SearchPage() {
       }
 
       console.log("Response data:", responseData);
-      console.log("Results array length:", resultsArray?.length || 0); // Debug log
+      console.log("Results array length:", resultsArray?.length || 0); 
 
       if (resultsArray && Array.isArray(resultsArray)) {
         if (pageNum === 1) {
@@ -80,7 +80,7 @@ export default function SearchPage() {
         setTotalPages(responseData.total_pages || 1);
         setPage(pageNum);
 
-        // Debug: แสดงข้อความเมื่อไม่พบผลลัพธ์
+        
         if (resultsArray.length === 0 && pageNum === 1) {
           console.log("No movies found for query:", searchQuery);
         }
@@ -175,7 +175,6 @@ export default function SearchPage() {
         </CardContent>
       </Card>
 
-      {/* Error State */}
       {error && (
         <Card className="border-red-200 bg-red-50">
           <CardContent className="pt-6">
@@ -186,7 +185,7 @@ export default function SearchPage() {
         </Card>
       )}
 
-      {/* Results */}
+     
       {!error && hasSearched && movies.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">ผลการค้นหา</h2>
@@ -206,7 +205,7 @@ export default function SearchPage() {
         </div>
       )}
 
-      {/* Empty State */}
+  
       {!error && hasSearched && movies.length === 0 && (
         <Card>
           <CardContent className="pt-6 text-center">
@@ -219,7 +218,7 @@ export default function SearchPage() {
         </Card>
       )}
 
-      {/* Initial State (แสดงหนัง 10 อันดับแรกเมื่อยังไม่ได้ค้นหา) */}
+     
       {!hasSearched && !isLoading && allInitialMovies.length > 0 && (
         <div className="space-y-4">
           <CardHeader>
@@ -230,13 +229,13 @@ export default function SearchPage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* <<<< แสดงหนังตาม initialDisplayCount */}
+           
               {allInitialMovies.slice(0, initialDisplayCount).map((movie) => (
                 <MovieCard key={movie.id} movie={movie} />
               ))}
             </div>
 
-            {/* <<<< ปุ่มโหลดเพิ่มเติมสำหรับหนังเริ่มต้น */}
+            
             {initialDisplayCount < allInitialMovies.length && (
               <div className="text-center mt-4">
                 <Button onClick={loadMoreInitialMovies} variant="outline" disabled={isLoading}>
@@ -248,7 +247,7 @@ export default function SearchPage() {
         </div>
       )}
 
-      {/* Initial State - No Initial Movies Available (หากโหลดหนังเริ่มต้นไม่ได้) */}
+     
       {!hasSearched && !isLoading && allInitialMovies.length === 0 && !error && (
         <Card>
           <CardContent className="pt-6 text-center">
@@ -261,5 +260,8 @@ export default function SearchPage() {
         </Card>
       )}
     </div>
-  );
+  )
 }
+
+
+

@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 export default function UserSettingsPage() {
   const { user, updateProfile, logout } = useUserStore();
@@ -48,10 +49,10 @@ export default function UserSettingsPage() {
         name: formData.name,
         email: formData.email,
       });
-      alert("อัปเดตข้อมูลเรียบร้อยแล้ว");
+      toast.success("อัปเดตข้อมูลเรียบร้อยแล้ว");
     } catch (error) {
       console.error("Profile update failed:", error);
-      alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+      toast.error("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
     } finally {
       setIsLoading(false);
     }
@@ -61,12 +62,12 @@ export default function UserSettingsPage() {
     e.preventDefault();
 
     if (formData.newPassword !== formData.confirmPassword) {
-      alert("รหัสผ่านใหม่ไม่ตรงกัน");
+      toast.info("รหัสผ่านใหม่ไม่ตรงกัน");
       return;
     }
 
     if (formData.newPassword.length < 6) {
-      alert("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
+      toast.info("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
       return;
     }
 
@@ -78,7 +79,7 @@ export default function UserSettingsPage() {
         newPassword: formData.newPassword,
       });
 
-      alert("เปลี่ยนรหัสผ่านเรียบร้อยแล้ว");
+      toast.success("เปลี่ยนรหัสผ่านเรียบร้อยแล้ว");
       setFormData((prev) => ({
         ...prev,
         currentPassword: "",
@@ -87,7 +88,7 @@ export default function UserSettingsPage() {
       }));
     } catch (error) {
       console.error("Password change failed:", error);
-      alert("เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน");
+      toast.error("เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน");
     } finally {
       setIsLoading(false);
     }
@@ -231,7 +232,7 @@ export default function UserSettingsPage() {
             </div>
             <Button
               variant="destructive"
-              onClick={() => alert("ฟีเจอร์นี้ยังไม่พร้อมใช้งาน")}
+              onClick={() => toast.error("ฟีเจอร์นี้ยังไม่พร้อมใช้งาน")}
             >
               ลบบัญชี
             </Button>
@@ -260,5 +261,5 @@ export default function UserSettingsPage() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
