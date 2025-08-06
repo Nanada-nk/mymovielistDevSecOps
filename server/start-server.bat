@@ -1,0 +1,3 @@
+@echo off
+echo Starting Minikube port forwarding for backend...
+kubectl port-forward service/backend-app-service 3000:3000
