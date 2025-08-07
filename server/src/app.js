@@ -18,6 +18,7 @@ const allowedOrigins = [
   "http://localhost:8080", // Docker client
   "http://localhost:3000", // Same port (for testing)
   "http://localhost:80", // Port 80
+  "http://localhost", // Port 80 again
   "http://127.0.0.1:5173", // Alternative localhost
   "http://127.0.0.1:8080", // Alternative localhost
   process.env.FRONTEND_URL, // From environment variable
