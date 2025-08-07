@@ -1,3 +1,3 @@
 @echo off
 echo Starting Minikube port forwarding for frontend...
-kubectl port-forward service/frontend-app-service 8080:8080
+kubectl port-forward service/frontend-app-service 5173:8080
